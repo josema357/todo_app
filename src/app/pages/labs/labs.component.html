@@ -15,13 +15,13 @@
   <input type="text" [value]="name()" />
   <button [disabled]="statusButton">Click me</button>
   <hr />
-  <p>Person: {{ person.name }}</p>
-  <p>Age: {{ person.age }}</p>
-  <img [src]="person.avatar" alt="" /><br />
+  <p>Person: {{ person().name }}</p>
+  <p>Age: {{ person().age }}</p>
+  <img [src]="person().avatar" alt="" /><br />
   <button (click)="clickHandler()">Click here</button><br>
   <button (dblclick)="clickHandler()">Double click</button>
   <p>(change)</p>
-  <input type="number" [value]="person.age" (change)="onChangeHandler($event)"/>
+  <input type="number" [value]="person().age" (change)="onChangeHandler($event)"/>
   <p>(keydown)</p>
   <input type="text" [value]="name()" (keydown)="keyDownHandler($event)"/>
   <p>(keyup)</p>
@@ -38,4 +38,16 @@
       {{ i }} {{ task }}
     </li>
   </ul>
+  <hr>
+  <div *ngIf="name() === 'Josema'">
+    My content
+  </div>
+  <input type="number" [value]="person().age" (change)="changeAge($event)"/> <br>
+  <div *ngIf="person().name === 'Jose' && person().age > 18; else elseBlock">
+    I am Josema and I am 26 years old
+  </div>
+  <ng-template #elseBlock>
+    I am 18 years old
+  </ng-template>
+  
 </div>
