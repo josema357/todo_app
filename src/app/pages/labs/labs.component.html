@@ -49,5 +49,15 @@
   <ng-template #elseBlock>
     I am 18 years old
   </ng-template>
-  
+  <hr>
+  <input type="text" [value]="person().name" (change)="changeName($event)"/>
+  <div [ngSwitch]="person().name">
+    <p *ngSwitchCase="'Jose'">I am Jose</p>
+    <p *ngSwitchCase="'Diego'">I am Diego</p>
+    <p *ngSwitchCase="'Andrea'">I am Andrea</p>
+    <p *ngSwitchDefault>I am unknow</p>
+  </div>
+  <hr>
+  <input type="color" [formControl]="colorCtrl"/>
+  <p>color: {{ colorCtrl.value }}</p>
 </div>
