@@ -4,3 +4,21 @@
 img{
   width: 50%;
 }
+.box {
+  height: 10px;
+  display: block;
+  background-color: brown;
+}
+.message-error{
+  color: red;
+  font-weight: bold;
+  font-size: 12px;
+  opacity: 0;
+  transition: all linear .5s;
+}
+.message-error.show{
+  color: red;
+  font-weight: bold;
+  font-size: 12px;
+  opacity: 1;
+}

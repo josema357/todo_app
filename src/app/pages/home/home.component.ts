@@ -1,11 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Task } from '../../models/task.model';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -23,10 +24,22 @@ export class HomeComponent {
     }
   ])
 
-  changeHandler(event : Event){
-    const input = event.target as HTMLInputElement;
-    const title = input.value;
-    this.addTask(title);
+  newTaskCtrl = new FormControl('', {
+    nonNullable: true,
+    validators: [
+      Validators.required,
+      Validators.pattern('^(?!\s*$).+')
+    ]
+  });
+
+  changeHandler(){
+    if(this.newTaskCtrl.valid){
+      const value = this.newTaskCtrl.value;
+      if(value.trim().length !== 0){
+        this.addTask(value.trim());
+      }
+      this.newTaskCtrl.setValue('');
+    }
   }
 
   addTask(title: string){
@@ -49,6 +62,40 @@ export class HomeComponent {
           return {
             ...task,
             completed: !task.completed
+          }
+        };
+        return task;
+      })
+    })
+  }
+
+  editingtask(index: number){
+    this.tasks.update((tasks) => {
+      return tasks.map((task, position) => {
+        if(position === index){
+          return {
+            ...task,
+            editing: true
+          }
+        };
+        return {
+          ...task,
+          editing: false
+        };
+      })
+    })
+  }
+
+  updateTasktext(index: number, event: Event){
+    const input = event.target as HTMLInputElement;
+
+    this.tasks.update((tasks) => {
+      return tasks.map((task, position) => {
+        if(position === index){
+          return {
+            ...task,
+            title: input.value,
+            editing: false
           }
         };
         return task;
